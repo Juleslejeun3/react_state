@@ -1,25 +1,42 @@
-import logo from './logo.svg';
+import { Component } from 'react';
 import './App.css';
+import Profile from './Proflle';
 
-function App() {
+class App extends Component {
+  state = {show : false, timer : 0 }
+
+  componentDidMount(){      
+    this.interval = setInterval(()=> this.timerInt()+1 ,1000)
+}
+  componentWillMount() {
+    clearInterval(this.interval)
+  }
+  
+  timerInt () {
+    this.setState({timer : +1 })
+  }
+  
+  
+  handleShow=()=>this.setState({show:true})
+  handleCached=()=>this.setState({show:false})
+  render(){
+    let show = this.state.show;
+    let Button;
+    if (show) {
+      Button = <button onClick={this.handleCached}>Cacher profil</button>;
+    } else {
+      Button = <button onClick={this.handleShow}> Afficher Profil</button>;
+    }
+   
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {show?<Profile/> : null}
+      {Button}
+      <h2>Interval de temps : {this.state.timer}</h2>
     </div>
   );
 }
+}
+
 
 export default App;
